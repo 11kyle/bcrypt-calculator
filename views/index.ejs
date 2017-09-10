@@ -3,39 +3,70 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KJ | Web Developer</title>
+  <title>Bcrypt Calculator</title>
 
   <!-- Bootstrap CDN -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-
-
+  <style>
+    form {
+      margin-bottom: 100px;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
+  <div id="app" class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Bcrypt Calculator</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <!--form class="form-signin" action="/api/hash" method="post"-->
+        <form class="form-signin">
+          <h4 class="form-signin-heading">Hash password</h2>
 
-    <!--form class="form-signin" action="/api/hash" method="post"-->
-    <form id="app" class="form-signin">
-      <h2 class="form-signin-heading">Input a password</h2>
+          <label for="inputPassword" class="form-signin-heading">Password</label>
+          <input v-model="hash.password" id="inputPassword" type="text" name="password1" class="form-control" placeholder="Passowrd" required autofocus/>
 
-      <select v-model="hash.saltRound" name="saltRounds"> <!--Supplement an id here instead of using 'name'-->
-        <option v-for="round in saltRounds" :value="round.value">{{ round.value }}</option>
-      </select>
+          <label for="inputSaltRound" class="form-signin-heading">Salt</label>
+          <select v-model="hash.saltRound" name="saltRounds"> <!--Supplement an id here instead of using 'name'-->
+            <option v-for="round in saltRounds" :value="round.value">{{ round.value }}</option>
+          </select>
 
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input v-model="hash.password" type="text" name="password" class="form-control" placeholder="Passowrd" required autofocus>
-      <p>{{hash.password}}</p>
-      <button v-on:click.prevent="generateHash()" class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Generate Hash</button>
-    </form>
+          <button v-on:click.prevent="generateHash()" class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Generate Hash</button>
 
-  </div> <!-- /container -->
+          <p>{{ hash.hash }}</p>
 
+        </form>
+      </div>
+
+      <div class="col-sm-6">
+        <!-- Check password against hash -->
+        <!--
+          text input for password
+          text input for hash
+          button to execute comparison
+          paragraph to display result (match or no match)
+        -->
+        <form class="form-signin">
+          <h4 class="form-signin-heading">Check password against hash</h2>
+          <label for="inputPassword2" class="form-signin-heading">Password</label>
+          <input v-model="hash2.password" id="inputPassword2" type="text" name="password2" placeholder="Password" class="form-control"/>
+
+          <label for="inputHash" class="form-signin-heading">Hash</label>
+          <input v-model="hash2.hash" id="inputHash" type="text" name="hash" placeholder="hash" class="form-control"/>
+
+          <button v-on:click.prevent="postComparison()" class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Check password against hash</button>
+
+          <p>{{ result ? 'Match' : 'No Match' }}</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Axios, Vue CDNs -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/vue"></script>
   <script src="js/app.js"></script>
