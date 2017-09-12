@@ -44,7 +44,7 @@ var app = new Vue({
           console.log(response);
           // Wait 1/2 sec before calling getGeneratedHash so bcrypt has enough time to encrypt password
           // If computer has low processing power, this might execute before hash is returned from the server
-          setTimeout(function() {self.getGeneratedHash()}, 500);
+          setTimeout(function() {self.getGeneratedHash()}, 750);
         }).catch(function(error) {
           console.log(error);
         });
@@ -68,7 +68,7 @@ var app = new Vue({
           console.log(response);
           // Wait 1/2 sec before calling getResult so bcrypt has enough time to compare password to hash
           // If computer has low processing power, this might execute before result is returned from the server
-          setTimeout(function() {self.getResult()}, 500);
+          setTimeout(function() {self.getResult()}, 750);
         }).catch(function(error) {
           console.log(error);
         });
