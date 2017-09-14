@@ -7,42 +7,56 @@
 
   <!-- Bootstrap CDN -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <style>
-    form {
-      margin-bottom: 100px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <div id="app" class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <h3>Bcrypt Calculator</h3>
+      <div class="col-sm-8">
+        <h3 class="text-center">Bcrypt Calculator</h3>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-8">
         <!--form class="form-signin" action="/api/hash" method="post"-->
-        <form class="form-signin">
-          <h4 class="form-signin-heading">Hash password</h2>
+        <form class="clearfix">
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <h4 class="form-signin-heading">Hash password</h2>
+            </div>
+          </div>
 
-          <label for="inputPassword" class="form-signin-heading">Password</label>
-          <input v-model="hash.password" id="inputPassword" type="text" name="password1" class="form-control" placeholder="Passowrd" required autofocus/>
+          <div class="form-row">
+            <div class="form-group col-md-9">
+              <label for="inputPassword" class="col-form-label">Password</label>
+              <input v-model="hash.password" id="inputPassword" type="text" name="password1" class="form-control" required>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputSalt" class="col-form-label">Salt</label>
+              <select v-model="hash.saltRound" name="saltRounds" id="inputSalt" class="form-control">
+                <option v-for="round in saltRounds" :value="round.value">{{ round.value }}</option>
+              </select>
+            </div>
+          </div>
 
-          <label for="inputSaltRound" class="form-signin-heading">Salt</label>
-          <select v-model="hash.saltRound" name="saltRounds"> <!--Supplement an id here instead of using 'name'-->
-            <option v-for="round in saltRounds" :value="round.value">{{ round.value }}</option>
-          </select>
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label class="col-form-lanel">Result:</label>
+              <p class="result form-control">{{ hash.hash }}</p>
+            </div>
+          </div>
 
-          <button v-on:click.prevent="generateHash()" class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Generate Hash</button>
-
-          <p>{{ hash.hash }}</p>
-
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <button v-on:click.prevent="generateHash()" class="btn btn-info btn-block" type="submit" value="Submit">Generate Hash</button>
+            </div>
+          </div>
         </form>
       </div>
-
-      <div class="col-sm-6">
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
         <!-- Check password against hash -->
         <!--
           text input for password
@@ -50,17 +64,39 @@
           button to execute comparison
           paragraph to display result (match or no match)
         -->
-        <form class="form-signin">
-          <h4 class="form-signin-heading">Check password against hash</h2>
-          <label for="inputPassword2" class="form-signin-heading">Password</label>
-          <input v-model="hash2.password" id="inputPassword2" type="text" name="password2" placeholder="Password" class="form-control"/>
+        <form class="clearfix">
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <h4 class="form-signin-heading">Check password against hash</h2>
+            </div>
+          </div>
 
-          <label for="inputHash" class="form-signin-heading">Hash</label>
-          <input v-model="hash2.hash" id="inputHash" type="text" name="hash" placeholder="hash" class="form-control"/>
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label for="inputPassword2" class="form-signin-heading">Password</label>
+              <input v-model="hash2.password" id="inputPassword2" type="text" name="password2" class="form-control"/>
+            </div>
+          </div>
 
-          <button v-on:click.prevent="postComparison()" class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Check password against hash</button>
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+                <label for="inputHash" class="form-signin-heading">Hash</label>
+              <input v-model="hash2.hash" id="inputHash" type="text" name="hash" class="form-control"/>
+            </div>
+          </div>
 
-          <p>{{ result ? 'Match' : 'No Match' }}</p>
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label class="col-form-lanel">Result:</label>
+              <p class="form-control">{{ result ? 'Match' : 'No Match' }}</p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <button v-on:click.prevent="postComparison()" class="btn btn-info btn-block" type="submit" value="Submit">Compare</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
